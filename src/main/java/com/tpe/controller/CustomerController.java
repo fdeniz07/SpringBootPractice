@@ -103,8 +103,22 @@ public class CustomerController {
     //8.firstName ve lastName bilgisi ile customer getirme->http://localhost:8080/customers/fullquery?firstName=Jack&lastName=Sparrow
     @GetMapping("/fullquery")
     public ResponseEntity<List<Customer>> getCustomerByFirstNameAndLastName(@RequestParam("firstName") String firstName,
-                                                                       @RequestParam("lastName") String lastName) {
+                                                                            @RequestParam("lastName") String lastName) {
         List<Customer> customerList = customerService.getCustomersByFirstNameAndLastName(firstName, lastName);
         return ResponseEntity.ok(customerList);
+    }
+
+    //9.İsmi ... içeren customer ları getirme >http://localhost:8080/customers/jpql?name=Jack
+    @GetMapping("/jpql")
+    public ResponseEntity<List<Customer>> getAllCustomerFirstNameLike(@RequestParam("firstName") String name) {
+        List<Customer> customers = customerService.getAllCustomersFirstNameLike(name);
+        return ResponseEntity.ok(customers);
+    }
+
+    // 10. Requestle gelen kelime name veya lastname de geçen customerları getir->http://localhost:8080/customers/search?word=Ja
+    @GetMapping("/search")
+    public ResponseEntity<List<Customer>> getAllCustomersLikeFirstNameOrLastName(@RequestParam("firstNnameOrLastName") String firstNameOrLastName){
+        List<Customer> customers = customerService.getAllCustomersLikeFirstNameOrLastName(firstNameOrLastName);
+        return ResponseEntity.ok(customers);
     }
 }

@@ -7,6 +7,8 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -39,4 +41,7 @@ public class Customer {
     private String email;
 
     private String Phone;
+
+    @OneToMany(mappedBy = "customer")
+    private List<Product> products = new ArrayList<>();
 }

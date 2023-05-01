@@ -64,8 +64,8 @@ public class CustomerService {
 
         boolean isExistEmail = customerRepository.existsByEmail(customerDto.getEmail());
 
-        if (isExistEmail && !customer.getEmail().equals(customerDto.getEmail())){
-            throw new ConflictException("Customer already exist by email : "+customerDto.getEmail());
+        if (isExistEmail && !customer.getEmail().equals(customerDto.getEmail())) {
+            throw new ConflictException("Customer already exist by email : " + customerDto.getEmail());
         }
 
         customer.setFirstName(customerDto.getFirstName());
@@ -76,19 +76,31 @@ public class CustomerService {
         customerRepository.save(customer);
     }
 
-    public Page<Customer>  getAllCustomerPage(Pageable pageable){
+    public Page<Customer> getAllCustomerPage(Pageable pageable) {
         Page<Customer> customerPage = customerRepository.findAll(pageable);
         return customerPage;
     }
 
-    public  List<Customer> getCustomerByFirstName(String firstName){
+    public List<Customer> getCustomerByFirstName(String firstName) {
         List<Customer> customers = customerRepository.findByFirstName(firstName);
         return customers;
     }
 
 
     public List<Customer> getCustomersByFirstNameAndLastName(String firstName, String lastName) {
-        List<Customer> customerList=customerRepository.findByFirstNameAndLastName(firstName,lastName);
+        List<Customer> customerList = customerRepository.findByFirstNameAndLastName(firstName, lastName);
         return customerList;
+    }
+
+    public List<Customer> getAllCustomersFirstNameLike(String name) {
+        String lowerName = name.toLowerCase();
+        List<Customer> customers = customerRepository.findAllByFirstNameLike(lowerName);
+        return customers;
+    }
+
+    public List<Customer> getAllCustomersLikeFirstNameOrLastName(String firstNameOrLastName) {
+        String lowerFirstNameOrLastName = firstNameOrLastName.toLowerCase();
+        List<Customer> customers = customerRepository.findAllByNameOrLastNameLike(lowerFirstNameOrLastName);
+        return customers;
     }
 }
